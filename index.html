@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Session 22</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<style>
+body{
+    background-image: url(https://t3.ftcdn.net/jpg/08/08/99/46/360_F_808994683_OUZEZt581lOYP0H2zGRXMZKJ5g87jkjx.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+<div class="card p-4">
+<h1 class="text-center mb-3">Loan Calculator</h1>
+<form id="loanform">
+
+<div class="mb-2">
+<label class="form-label">Loan Amount ($):</label>
+<input type="number" id="amount" required class="form-control">
+</div>
+
+<div class="mb-2">
+<label class="form-label">Annual Interest Rate (%):</label>
+<input type="number" id="interest" required class="form-control">
+</div>
+
+<div class="mb-2">
+<label class="form-label">Years to repay:</label>
+<input type="number" id="years" required class="form-control">
+</div>
+
+<button class="btn btn-primary">Calculate</button>
+
+</form>
+
+<!-- result box -->
+
+<div id="result" class="my-4" style="display:none;">
+<h4>Loan Details</h4>
+<p><b>Monthly Payment: </b><span id="monthly"></span></p><hr>
+
+<p><b>Total Payment: </b><span id="total"></span></p><hr>
+
+<p><b>Total Interest: </b><span id="tinterest"></span></p><hr>
+
+</div>
+
+</div>
+
+<script>
+document.getElementById("loanform").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let amount = document.getElementById("amount").value;
+    let annualInterest = document.getElementById("interest").value;
+    let years = document.getElementById("years").value;
+
+    let monthlyInterest = annualInterest/100/12;
+    let months = years*12;
+
+    // EMI Formula
+      const x = Math.pow(1 + monthlyInterest, months);
+      const monthlyPayment = (amount * x * monthlyInterest) / (x - 1);
+
+    if(isFinite(monthlyPayment)){
+    let totalPayment = monthlyPayment*months;
+    let totalInterest = totalPayment - amount;
+
+    document.getElementById("monthly").innerHTML = monthlyPayment;
+
+    document.getElementById("total").innerHTML = totalPayment;
+
+    document.getElementById("tinterest").innerHTML = totalInterest;
+
+    document.getElementById("result").style.display = "block";
+
+    }
+
+    else{
+        alert("Please check your Inputs!");
+    }
+})
+
+
+
+</script>
+
+</body>
+</html>
